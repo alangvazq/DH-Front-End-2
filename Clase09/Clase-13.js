@@ -165,6 +165,8 @@ formulario.addEventListener("submit", function (evento) {
 // const btnSubmit = formulario.querySelector("button");
 // console.log(btnSubmit);
 function navegarPaginaExito() {
+  localStorage.setItem('user', JSON.stringify(estadoUsuario));
+
   //   desarrollar la funcion aqui
   const btnSubmit = formulario.querySelector("button");
   btnSubmit.disabled = true;
