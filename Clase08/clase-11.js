@@ -80,18 +80,14 @@ function validarInformacion(usuario) {
   let errores = [];
   // 👇 desarrollar aqui la funcion
   let nombre = usuario.nombre;
-  let pass = usuario.password;
-  let espacios = pass.match(/ /g);
+  let pass = usuario.password.replace(/\s+/g, '');
 
-  if (espacios !== null) {
-    lenPass = usuario.password - espacios;
-  }
 
   if (!nombre && nombre.length < 3) {
     errores.push("<p> El nombre debe tener al menos 3 caracteres.</p>");
   }
 
-  if (!pass && lenPass < 6) {
+  if (pass.length < 6) {
     errores.push(
       "<p>La contraseña debe tener al menos 6 caracteres, entre letras y símbolos.</p>"
     );
