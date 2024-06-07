@@ -9,19 +9,37 @@
 // Esta API tiene su documentación en: https://jsonplaceholder.typicode.com/
 // Vamos a implementar el endpoint que nos devuelve comentarios para mostrarlos en pantalla.
 
-function consultaApi(endpoint) {
+// function consultaApi(endpoint) {
 
-    fetch(endpoint)
-        .then(objetoRespuesta => {
-            console.log(objetoRespuesta);
-            const promesaJson = objetoRespuesta.json();
-            return promesaJson;
-        })
-        .then(datosJs => {
-            console.log(datosJs);
-            renderizarElementos(datosJs);
-        })
+//     fetch(endpoint)
+//         .then(objetoRespuesta => {
+//             console.log(objetoRespuesta);
+//             const promesaJson = objetoRespuesta.json();
+//             return promesaJson;
+//         })
+//         .then(datosJs => {
+//             console.log(datosJs);
+//             renderizarElementos(datosJs);
+//         })
 
+// }
+
+async function consultaApi(endpoint) {
+    try {
+        const objetoRespuesta = await fetch(endpoint);
+        if (!objetoRespuesta.ok) {
+            throw new Error("Error al obtener los datos");
+        }
+        const datos = await objetoRespuesta.json();
+        boton.remove();
+        renderizarElementos(datos);
+    } catch (error) {
+        Swal.fire({
+            title: "Error",
+            text: `${error}`,
+            icon: "error"
+        });
+    }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -30,7 +48,8 @@ function consultaApi(endpoint) {
 // Vamos a reimplementar la escucha del click lanzar las nuevas funciones.
 
 const boton = document.querySelector('button');
-const endpoint = 'https://jsonplaceholder.typicode.com/comments';
+// const endpoint = 'https://jsonplaceholder.typicode.com/comments';
+const endpoint = 'https://jsonplaceholder.typicode.com/commets?_limit=10';
 
 boton.addEventListener('click', function () {
     console.log("Clink para ver comentarios...");
@@ -48,7 +67,6 @@ boton.addEventListener('click', function () {
 
 function renderizarElementos(listado) {
     const comentarios = document.querySelector('.comentarios');
-
     comentarios.innerHTML = listado.map(item => {
         return `<div class="comentario">
                     <h4>${item.email}</h4>
